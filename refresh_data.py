@@ -8,7 +8,7 @@ from data.nursing_homes import acquisition as nursing_home_acquisition
 from data.covid import acquisition_ci_specific as covid_ci_acquisition
 
 LOGGING_LEVEL = logging.DEBUG
-GOOGLE_API_KEY = 'AIzaSyBUylmCwdPG3gRlBIVwq0aDVZI8OYGWNak'
+GOOGLE_API_KEY = 'YOUR KEY HERE'
 
 if __name__ == "__main__":
 

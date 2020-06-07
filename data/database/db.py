@@ -4,6 +4,7 @@ def drop_tables():
     conn = sqlite3.connect('data/database/floridacovid.sqlite')
     cur = conn.cursor()
     cur.executescript('''
+        DROP TABLE IF EXISTS NursingHomeCovid;
         DROP TABLE IF EXISTS CorrectionalInstitutionsCovid;
         DROP TABLE IF EXISTS NursingHomes;
         DROP TABLE IF EXISTS CorrectionalInstitutions;
@@ -186,6 +187,25 @@ def init_institution_covid_database():
             inmate_positive_tests INTEGER,
             staff_positive_tests INTEGER,
             FOREIGN KEY(to_correctonal_institution) REFERENCES CorrectionalInstitutions(id)
+        ); ''')
+
+    cur.close()
+    conn.close()
+
+def init_nursinghome_covid_database():
+    conn = sqlite3.connect('data/database/floridacovid.sqlite')
+    cur = conn.cursor()
+
+    cur.executescript('''
+        DROP TABLE IF EXISTS NursingHomeCovid;
+
+        CREATE TABLE NursingHomeCovid (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            to_county INTEGER,
+            name TEXT UNIQUE,
+            resident_positive_tests INTEGER,
+            staff_positive_tests INTEGER,
+            FOREIGN KEY(to_county) REFERENCES Counties(id)
         ); ''')
 
     cur.close()

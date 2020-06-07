@@ -6,6 +6,7 @@ from data.counties import acquisition as counties_acquisition
 from data.covid import acquisition as covid_acquisition
 from data.nursing_homes import acquisition as nursing_home_acquisition
 from data.covid import acquisition_ci_specific as covid_ci_acquisition
+from data.covid import acquisition_nh_specific as covid_nh_acquisition
 
 LOGGING_LEVEL = logging.DEBUG
 GOOGLE_API_KEY = 'YOUR KEY HERE'
@@ -30,3 +31,6 @@ if __name__ == "__main__":
 
     db.init_institution_covid_database()
     covid_ci_acquisition.harvest()
+
+    db.init_nursinghome_covid_database()
+    covid_nh_acquisition.harvest()

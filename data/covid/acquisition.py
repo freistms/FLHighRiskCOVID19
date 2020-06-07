@@ -5,7 +5,7 @@ import sqlite3
 import logging
 import json
 
-COVID_JSON_LOCATION = 'https://opendata.arcgis.com/datasets/37abda537d17458bae6677b8ab75fcb9_0.geojson'
+COVID_JSON_LOCATION = 'https://opendata.arcgis.com/datasets/a7887f1940b34bf5a02c6f7f27a5cb2c_0.geojson'
 
 def harvest():
     logging.info('**** Gathering covid data by county')

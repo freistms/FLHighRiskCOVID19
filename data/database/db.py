@@ -4,6 +4,10 @@ def drop_tables():
     conn = sqlite3.connect('data/database/floridacovid.sqlite')
     cur = conn.cursor()
     cur.executescript('''
+        DROP TABLE IF EXISTS FloridaDemographicsHispanic;
+        DROP TABLE IF EXISTS FloridaDemographicsBlack;
+        DROP TABLE IF EXISTS FloridaDemographics65AndOver;
+        DROP TABLE IF EXISTS FloridaDemographics17AndUnder;
         DROP TABLE IF EXISTS NursingHomeCovid;
         DROP TABLE IF EXISTS CorrectionalInstitutionsCovid;
         DROP TABLE IF EXISTS NursingHomes;
@@ -205,6 +209,78 @@ def init_nursinghome_covid_database():
             name TEXT UNIQUE,
             resident_positive_tests INTEGER,
             staff_positive_tests INTEGER,
+            FOREIGN KEY(to_county) REFERENCES Counties(id)
+        ); ''')
+
+    cur.close()
+    conn.close()
+
+def init_florida_demographics_17_under():
+    conn = sqlite3.connect('data/database/floridacovid.sqlite')
+    cur = conn.cursor()
+
+    cur.executescript('''
+        DROP TABLE IF EXISTS FloridaDemographics17AndUnder;
+
+        CREATE TABLE FloridaDemographics17AndUnder (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            to_county INTEGER,
+            percent REAL,
+            number INTEGER,
+            FOREIGN KEY(to_county) REFERENCES Counties(id)
+        ); ''')
+
+    cur.close()
+    conn.close()
+
+def init_florida_demographics_65_over():
+    conn = sqlite3.connect('data/database/floridacovid.sqlite')
+    cur = conn.cursor()
+
+    cur.executescript('''
+        DROP TABLE IF EXISTS FloridaDemographics65AndOver;
+
+        CREATE TABLE FloridaDemographics65AndOver (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            to_county INTEGER,
+            percent REAL,
+            number INTEGER,
+            FOREIGN KEY(to_county) REFERENCES Counties(id)
+        ); ''')
+
+    cur.close()
+    conn.close()
+
+def init_florida_demographics_black():
+    conn = sqlite3.connect('data/database/floridacovid.sqlite')
+    cur = conn.cursor()
+
+    cur.executescript('''
+        DROP TABLE IF EXISTS FloridaDemographicsBlack;
+
+        CREATE TABLE FloridaDemographicsBlack (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            to_county INTEGER,
+            percent REAL,
+            number INTEGER,
+            FOREIGN KEY(to_county) REFERENCES Counties(id)
+        ); ''')
+
+    cur.close()
+    conn.close()
+
+def init_florida_demographics_hispanic():
+    conn = sqlite3.connect('data/database/floridacovid.sqlite')
+    cur = conn.cursor()
+
+    cur.executescript('''
+        DROP TABLE IF EXISTS FloridaDemographicsHispanic;
+
+        CREATE TABLE FloridaDemographicsHispanic (
+            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            to_county INTEGER,
+            percent REAL,
+            number INTEGER,
             FOREIGN KEY(to_county) REFERENCES Counties(id)
         ); ''')
 

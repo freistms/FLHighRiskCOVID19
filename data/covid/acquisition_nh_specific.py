@@ -18,7 +18,8 @@ def harvest():
     #   has a couple special cases as the numeric columns have totals on top.  We will get all the columns for the page
     #   and then zip the resuls together into tuples, then create sql entries, then on to next page.
 
-    text = text.split('Facility Name')[1]
+    text = text.replace('\xa0', ' ')
+    text = text.split('Facility Name')[1]
     columns = text.split('\n\n')
 
     index = 1
@@ -41,15 +42,20 @@ def harvest():
 
         # Columns with small number of values look like stuff we do not want.  Hopefully we don't hit a situation with
         #   a small last page (nowhere close right now)
+
+        special_case_twofor = False
+        if "Provider Type" in column and "Update Time" in column:
+            special_case_twofor = True
+
         vals = column.split('\n')
         if len(vals) < 5:
             continue
 
         # Grab columns we care about
         if index % 7 == 1:
-            counties = [val.strip().replace('\xa0',' ').replace('‐','-').lower() for val in vals]
+            counties = [val.strip().replace('‐','-').lower() for val in vals]
         if index % 7 == 2:
-            facilities = [val.strip().replace('\xa0',' ').lower() for val in vals]
+            facilities = [val.strip().lower() for val in vals]
         if index % 7 == 5:
             positive_residents = [int(val.replace(',','').strip()) for val in vals]
             if first_page:
@@ -58,7 +64,10 @@ def harvest():
             positive_staff = [int(val.replace(',','').strip()) for val in vals]
             if first_page:
                 positive_staff = positive_staff[1:]
+
         index += 1
+        if special_case_twofor:
+            index += 1
 
 def store_value(county, name, resident_positive, staff_positive):
     conn = sqlite3.connect('data/database/floridacovid.sqlite')
